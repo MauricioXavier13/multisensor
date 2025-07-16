@@ -1,0 +1,48 @@
+esphome:
+  name: multisensor
+  friendly_name: MultiSensor
+
+esp8266:
+  board: d1_mini
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "XJlY5l+tQB09tNgz8wIaUrsDgBvTX2PBp1YtEDQxzMQ="
+
+ota:
+  - platform: esphome
+  #  password: !secret ota_password
+    password: "0916befb1bb94c373346a2cd04d8d25f"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Multisensor Fallback Hotspot"
+    password: "qvy9pto0aOn5"
+
+captive_portal:
+
+binary_sensor:
+# IR Flame Detector Sensor
+  - platform: gpio
+    pin:
+      number: D2
+    name: "WeMos D1 Mini Flame Sensor"
+
+sensor:  
+# MQ2 Smoke Gas Sensor
+  - platform: adc
+    pin: A0
+    name: "WeMos D1 Mini Gas Sensor"
+    update_interval: 1s
+    filters:
+      - multiply: 100
+    unit_of_measurement: "%"
+    icon: "mdi:percent"
